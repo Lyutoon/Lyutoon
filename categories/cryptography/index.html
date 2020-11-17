@@ -5,9 +5,7 @@
   <!-- SEO相关 -->
   
     
-      
-        <meta name="robots" content="index,follow">
-      
+      <meta name="robots" content="noindex,follow">
     
   
   <!-- 渲染优化 -->
@@ -23,11 +21,9 @@
 
   <!-- 页面元数据 -->
   
-  <title>Lyutoon</title>
+  <title>分类：cryptography - Lyutoon</title>
   
 
-  
-    <meta name="description" content="技术&生活">
   
 
   <!-- feed -->
@@ -60,7 +56,7 @@
 <body>
   
 
-<header id="l_header" class="l_header auto shadow blur " style='opacity: 0' >
+<header id="l_header" class="l_header auto shadow blur show" style='opacity: 0' >
   <div class='container'>
   <div id='wrapper'>
     <div class='nav-sub'>
@@ -277,7 +273,7 @@
     <div id="l_cover">
   
     
-        <div id="half" class='cover-wrapper  search' style="display: ;">
+        <div id="full" class='cover-wrapper  search' style="display: none;">
           
             <div class='cover-bg lazyload placeholder' data-bg="https://cdn.jsdelivr.net/gh/Lyutoon/background@1.53/pic/1.png"></div>
           
@@ -341,12 +337,14 @@
       <div class='body-wrapper' id="pjax-container">
         
 
+
 <div class='l_main'>
   
+    
+      
   <section class="post-list">
     
       
-        
         
           
         
@@ -414,6 +412,8 @@
   
 
 
+    
+  
 </div>
 <aside class='l_side'>
   
@@ -523,7 +523,6 @@
 </aside>
 
 
-
         
         
           <!--此文件用来存放一些不方便取值的变量-->
@@ -538,7 +537,7 @@
 
   var l_header=document.getElementById("l_header");
   
-  l_header.classList.remove("show");
+  l_header.classList.add("show");
   
 </script>
 
