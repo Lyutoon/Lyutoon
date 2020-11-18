@@ -23,6 +23,8 @@
   
 
   
+    <meta name="description" content="Pollard p-1 大整数分解算法背后的数学秘密。">
+  
 
   <!-- feed -->
   
@@ -343,7 +345,7 @@
   
     <div class='headimg-div'>
       <a class='headimg-a'>
-        <img class='headimg' src='https://cdn.jsdelivr.net/gh/Lyutoon/picture@1.02/pollard%20p-1.png'/>
+        <img class='headimg' src='https://cdn.jsdelivr.net/gh/Lyutoon/picture@1.03/pollard%20p-1.png'/>
       </a>
     </div>
   
@@ -413,7 +415,7 @@
   
   <h2 id="一、引言"><a href="#一、引言" class="headerlink" title="一、引言"></a>一、引言</h2><p>当我们首先接触到这个陌生的算法的时候,肯定想要知道这个算法是干什么用的。对于Pollard p-1算法,它可以在一定条件下完成对某些具有特定性质的大整数的分解问题。那么,什么是大整数分解问题？为何它如此重要？这个算法又在什么条件下用什么数学原理可以完成这一问题呢？接下来我会慢慢讲解。</p>
 <h2 id="二、大整数分解问题"><a href="#二、大整数分解问题" class="headerlink" title="二、大整数分解问题"></a>二、大整数分解问题</h2><p>关于大整数分解问题,未接触过密码学的朋友们请想像一下自己对<strong>大整数</strong>的理解,何为大整数？一千万？一亿？一千亿？其实这都不算是足够作为密码学体制中严格意义的大整数。在密码学中,一般的RSA加密体制用的模数n的强度为<strong>1024bit</strong>或者更强的<strong>2048bit</strong>,也就是意味着是$2^{1204} \sim 2^{2048}$这样的数字才可被称为可用于加密的大整数。大整数分解就是把这个大整数分解成为一个一个素数的乘积。而我们为什么要对它进行分解呢？这就要提到刚刚我们讲过的RSA加密体制了。</p>
-<p>RSA加密体制是典型的公钥密码体系,而它的应用也算是十分广泛,我们在生成github的ssh密钥的命令<code>ssh-keygen -t rsa -c</code>中就出现了它的身影。而RSA之所以保密性如此强大,其背后的数学原理就是<strong>大整数分解的困难性</strong>。下面我们来具体看看RSA的做法：</p>
+<p>RSA加密体制是典型的公钥密码体系,而它的应用也算是十分广泛,我们在生成github的ssh密钥的命令<code>ssh-keygen -t rsa -C</code>中就出现了它的身影。而RSA之所以保密性如此强大,其背后的数学原理就是<strong>大整数分解的困难性</strong>。下面我们来具体看看RSA的做法：</p>
 <p>首先Alice选择两个<strong>大素数</strong>(一般为512bit强度)$p$和$q$,计算$n=p\cdot q$作为公钥的一部分。接下来选择一个较大整数$e$,满足$gcd(e,\phi(n)) = 1$,其中$\phi(n)$是n的欧拉函数。一般来说,通用的$e=65537$,太大太小都容易遭受攻击(具体以后会讲)。这样我们就得到了一组公钥$(e,n)$。</p>
 <p>之后,Alice根据$p$和$q$来确定私钥$d = e^{-1}mod\phi(n)$。</p>
 <p>接下来,因为公钥$(e,n)$是公开的,因此如果Bob想对Alice发消息,那么就可以对明文$m$采用公钥进行加密,得到密文$c$传输给Alice,Alice对其加密后的密文用私钥$d$进行解密,即可恢复明文$m$。具体实现过程如下：</p>
@@ -473,10 +475,10 @@ N=p_1^{e_1}p_2^{e_2}\cdots p_k^{e_k}</script><p>其中对于不同的$i$和$j$,$
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-17T17:59:34+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-18T15:15:01+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2020年11月17日</p>
+    <p>更新于：2020年11月18日</p>
   </a>
 </div>
 
@@ -495,7 +497,7 @@ N=p_1^{e_1}p_2^{e_2}\cdots p_k^{e_k}</script><p>其中对于不同的$i$和$j$,$
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2020/11/17/Pollard_p-1%20Algorithm/&title=Pollard p-1 Algorithm (科普向) - Lyutoon's blog&summary="
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2020/11/17/Pollard_p-1%20Algorithm/&title=Pollard p-1 Algorithm (科普向) - Lyutoon's blog&summary=Pollard p-1 大整数分解算法背后的数学秘密。"
           
           >
           
@@ -507,7 +509,7 @@ N=p_1^{e_1}p_2^{e_2}\cdots p_k^{e_k}</script><p>其中对于不同的$i$和$j$,$
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2020/11/17/Pollard_p-1%20Algorithm/&title=Pollard p-1 Algorithm (科普向) - Lyutoon's blog&summary="
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2020/11/17/Pollard_p-1%20Algorithm/&title=Pollard p-1 Algorithm (科普向) - Lyutoon's blog&summary=Pollard p-1 大整数分解算法背后的数学秘密。"
           
           >
           
@@ -519,7 +521,7 @@ N=p_1^{e_1}p_2^{e_2}\cdots p_k^{e_k}</script><p>其中对于不同的$i$和$j$,$
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2020/11/17/Pollard_p-1%20Algorithm/&title=Pollard p-1 Algorithm (科普向) - Lyutoon's blog&summary="
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2020/11/17/Pollard_p-1%20Algorithm/&title=Pollard p-1 Algorithm (科普向) - Lyutoon's blog&summary=Pollard p-1 大整数分解算法背后的数学秘密。"
           
           >
           
@@ -546,6 +548,16 @@ N=p_1^{e_1}p_2^{e_2}\cdots p_k^{e_k}</script><p>其中对于不同的$i$和$j$,$
   
   
 
+  
+    <div class="prev-next">
+      
+        <a class='prev' href='/2020/11/18/Pollard%20Rho/'>
+          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Pollard Rho Algorithm Study</p>
+          <p class='content'>一、引言在上一篇博客中,我们了解了Pollard p-1 算法,这次,请随我看看另一个名叫Pollard Rho的算法又能对大整数分解问题提供什么帮助吧！不过同样的,大整数分解问题在因子选取得当...</p>
+        </a>
+      
+      
+    </div>
   
 </article>
 
