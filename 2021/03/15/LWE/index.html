@@ -19,11 +19,9 @@
 
   <!-- 页面元数据 -->
   
-  <title>Pollard Rho Algorithm Study - Lyutoon&#39;s blog</title>
+  <title>Lyutoon&#39;s blog</title>
   
 
-  
-    <meta name="description" content="了解了Pollard p-1 算法,来看看Pollard Rho算法又能玩出什么新花样吧！">
   
 
   <!-- feed -->
@@ -343,110 +341,52 @@
 
 
   
-    <div class='headimg-div'>
-      <a class='headimg-a'>
-        <img class='headimg' src='https://cdn.jsdelivr.net/gh/Lyutoon/picture@1.03/pollard%20rho.png'/>
-      </a>
-    </div>
-  
   <div class="article-meta" id="top">
     
     
     
-      <h1 class="title">
-        Pollard Rho Algorithm Study
-      </h1>
-      <div class='new-meta-box'>
-        
-          
-            
-<div class='new-meta-item author'>
-  <a class='author' href="/" rel="nofollow">
-    <img no-lazy src="">
-    <p>Lyutoon</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  <div class='new-meta-item category'>
-    <a class='notlink'>
-      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
-      <a class="category-link" href="/categories/cryptography/">cryptography</a><span class="sep"></span><a class="category-link" href="/categories/cryptography/algorithm/">algorithm</a>
-    </a>
-  </div>
-
-
-          
-        
-          
-            <div class="new-meta-item date">
-  <a class='notlink'>
-    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
-    <p>发布于：2020年11月18日</p>
-  </a>
-</div>
-
-          
-        
-          
-            
-  <div class="new-meta-item browse leancloud">
-    <a class='notlink'>
-      
-      <div id="lc-pv" data-title="Pollard Rho Algorithm Study" data-path="/2020/11/18/Pollard%20Rho/">
-        <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
-        <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
-        次浏览
-      </div>
-    </a>
-  </div>
-
-
-          
-        
-      </div>
-    
   </div>
 
 
   
-  <h2 id="一、引言"><a href="#一、引言" class="headerlink" title="一、引言"></a>一、引言</h2><p>在上一篇博客中,我们了解了Pollard p-1 算法,这次,请随我看看另一个名叫<strong>Pollard Rho</strong>的算法又能对大整数分解问题提供什么帮助吧！不过同样的,大整数分解问题在因子选取得当的情况下,要想解决它是极为困难的,因此,Pollard Rho也有它自己的适用条件,下面,我们开始正式介绍这个未曾谋面的算法吧！</p>
-<h2 id="二、Pollard-Rho算法"><a href="#二、Pollard-Rho算法" class="headerlink" title="二、Pollard Rho算法"></a>二、Pollard Rho算法</h2><h3 id="1-适用条件"><a href="#1-适用条件" class="headerlink" title="(1) 适用条件"></a>(1) 适用条件</h3><p>Pollard Rho算法可以分解大整数是基于大整数$n=pq$中$p$和$q$之间有一个因子很小,在此情况下,我们可以利用该算法完成对$n$的分解。</p>
-<h3 id="2-基本思想"><a href="#2-基本思想" class="headerlink" title="(2) 基本思想"></a>(2) 基本思想</h3><p>Pollard Rho算法其实是基于<strong>寻找指定哈希函数的碰撞</strong>的思想才设计的算法。如果我们可以找到不相等的$x$和$x’$并且使得：</p>
+  <h1 id="Learning-With-Errors"><a href="#Learning-With-Errors" class="headerlink" title="Learning With Errors"></a>Learning With Errors</h1><h2 id="1-What-is-LWE"><a href="#1-What-is-LWE" class="headerlink" title="1. What is LWE?"></a>1. What is LWE?</h2><p>Here Oded Regev gives a definition of LWE :</p>
+<p><img src="https://i.loli.net/2020/11/02/WRbAEiU5mZqcpdo.png" class="lazyload" data-srcset="https://i.loli.net/2020/11/02/WRbAEiU5mZqcpdo.png" srcset="data:image/png;base64,666" alt="alt" style="zoom:150%;" /></p>
+<h2 id="2-Get-started"><a href="#2-Get-started" class="headerlink" title="2. Get started"></a>2. Get started</h2><h3 id="linear-system-of-equations"><a href="#linear-system-of-equations" class="headerlink" title="linear system of equations:"></a>linear system of equations:</h3><script type="math/tex; mode=display">
+3x_1 + 4x_2 + x_3 = 0\\ 
+4x_1 + 2x_2 + 6x_3 = 1\\ 
+x_1 + x_2 + x_3 = 1\\</script><p>if we want to get the value of $x_1, x_2, x_3$, we can use <strong>Gaussian Elimination</strong> to solve this problem. Or we can just use matrix to represent this problem:</p>
 <script type="math/tex; mode=display">
-x\,mod\,p=x'\,mod\,p</script><p>那么我们就可以知道$x$和$x’$其实相差$p$的整数倍,由此我们可以知道$gcd(x-x’,n)$如果不是$1$也不是$n$,那么我们就成功分解了。</p>
-<h3 id="3-具体原理"><a href="#3-具体原理" class="headerlink" title="(3) 具体原理"></a>(3) 具体原理</h3><p>首先我们先了解一下密码学中一个对哈希函数的经典攻击方式:<strong>生日攻击</strong>,其主要原理是<strong>生日悖论</strong>。(在此先简单介绍一下,以后会出一篇专门的文章来记录这个方法)</p>
-<blockquote>
-<p><strong>生日悖论</strong>：如果一个房间里有n个人,那么在不考虑特殊因素的前提下,例如闰年、双胞胎,假设一年365日出生概率是平均分布的,需要多少个人才可以保证在这n个人中有50%的概率出现两个人生日相同呢？答案是n=23。更有趣的是当n=57的时候这个概率竟然高达99%。有兴趣的朋友可以了解一下具体的证明,涉及到简单的概率论知识。<br><strong>生日攻击</strong>：生日攻击是基于生日悖论问题的扩展版本,考虑一个值域有n个元素的哈希函数h(x),那么利用与推导生日悖论相似的方法,我们可以得出,如果要使此哈希函数有至少50%的概率产生碰撞,则大约需要1.17$\sqrt n$次不同的x的尝试。</p>
-</blockquote>
-<p>我们考虑一个哈希函数$h:\left\{0,1,\dots,n-1\right\}\rightarrow \left\{0,1,\dots,p-1\right\}$,定义为$h(x)=x\,mod\,p$.</p>
-<p>那么我们由生日悖论可以知道我们如果随意选择$X\subseteq \left\{0,1,\dots,n-1\right\}$,$|X|=1.17\sqrt p$则有：</p>
+Ax = b\\ 
+\begin{bmatrix}3&4&1\\4&2&6\\1&1&1\end{bmatrix}\cdot\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix} =\begin{bmatrix}0\\1\\1\end{bmatrix}</script><h3 id="LWE-settings"><a href="#LWE-settings" class="headerlink" title="LWE settings:"></a>LWE settings:</h3><p>How about add an small error term $e?$ </p>
+<p>This time, we get:</p>
 <script type="math/tex; mode=display">
-Pr[\exists x,x'\in X\,s.t.\,(x\neq x')\land(h(x)=h(x'))]\ge\frac{1}{2}</script><p>但是,我们对这个算法进行分析的话,可以发现,如果我们用简单的$h(x)=x\,mod\,p$作为哈希函数,则要计算$\dbinom{|X|}{2}&gt;\frac{p}{2}$次$gcd(x,x’)$才可以找到这个公因数,复杂度太高了(甚至要比遍历$n$的复杂度还高2333)。因此我们要设计一个比较合理的哈希函数来降低这个复杂度。</p>
-<p>考虑一个多项式函数$f(x)=x^2+a$,在Pollard Rho算法中,$a$通常取为$1$。我们假设映射$x\mapsto f(x)\,mod\,p$表现得像一个随机映射(事实上在大多数时候就是表现得像随机映射),主要是为了使这个算法获得的值更加均匀,防止出现像$h(x)$一样的那种遍历式复杂度,同时也可以使这个哈希函数更加像一个$oracle\,\,modle$,这样才可以使生日攻击更有效。令$x_1\in\mathbb{Z_n}$,考虑一个序列$x_1,x_2,\dots,$满足：</p>
+3x_1 + 4x_2 + x_3 \approx 0\\ 
+4x_1 + 2x_2 + 6x_3 \approx 1\\ 
+x_1 + x_2 + x_3 \approx 1\\</script><p>Or in other words, we can represent it in matrix style where $e$ is the error term:</p>
 <script type="math/tex; mode=display">
-x_j=f(x_{j-1})\,mod\,n\quad(j\ge2)</script><p>而我们就是要在这个序列中找到$x_i,x_j\,s.t.\,gcd(x_i-x_j,n)&gt;1$.</p>
-<p>假设$x_i\equiv x_j\,mod\,p$,那么${x_i}^2+1\equiv {x_j}^2+1\,mod\,p$,而$x_{i+1}=f(x_i)$,因此,我们可以推断出$x_{i+1}\equiv x_{j+1}\,mod\,p$,一直这样递推下去那么我们可以得到结论：</p>
+Ax + e = b\\
+\begin{bmatrix}3&4&1\\4&2&6\\1&1&1\end{bmatrix}\cdot\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix} + \begin{bmatrix}e_1\\e_2\\e_3\end{bmatrix} =\begin{bmatrix}0\\1\\1\end{bmatrix}</script><p>Then now we put the equations into finite field:</p>
 <script type="math/tex; mode=display">
-如果x_i\equiv x_j\,mod\,p,那么\forall \delta \ge 0，我们都有x_{i+\delta}\equiv x_{j+\delta}\,mod\,p</script><p>我们令$l=j-i$,那么就有:如果$j’&gt;i’\ge i$并且$j’-i’$是$l$的整数倍,那么就会得到$x_{i’}\equiv x_{j’}\,mod\,p$。</p>
-<p>画成图形大概长这样：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Lyutoon/picture@1.04/Rho.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/Lyutoon/picture@1.04/Rho.png" srcset="data:image/png;base64,666" alt="alt" style="zoom:50%;" /></p>
-<p>因为长得比较像希腊字母$\rho$(Rho),因此得名Pollard Rho。</p>
-<p>那么我们知道了这些原理,又怎么来找这个$i$和$j$呢？这时候我们可以想,既然里面有一个环,我们是不是可以用<strong>弗洛伊德判环法</strong>来找出$i$和$j$。那么什么是弗洛伊德判环法呢？</p>
-<p>其实弗洛伊德判环法有点类似于追及问题的一个算法,我们想象一下有两个人在环形操场赛跑,一个人速度是$v$,另一个是$2v$,那么总有一天速度快的那个人要追上速度慢的那个人,并且此时超过了慢速的人一圈。弗洛伊德判环法就是利用了这个性质设计的。</p>
-<p>在此处,我们令一个$x$每次套上一层$f(x)$,另一个$x$每次套上两层$f(x)$。举个例子,如果从$x_0$开始,那么慢的那个下一次应该是$f(x_0)\,mod\,n=x_1$,而快的那个则是$f(f(x_0))=x_2$这样子。也就是说$x_{快}=2x_{慢}$。</p>
-<p>这样一来如果我们在这个追及过程中出现了$gcd(x_{快}-x_{慢},n)\notin\left\{1,n\right\}$,则分解成功，找,了$p$。</p>
-<p>整个代码的复杂度为$O(n^{1/4})$</p>
-<h3 id="4-伪代码和代码实现"><a href="#4-伪代码和代码实现" class="headerlink" title="(4) 伪代码和代码实现"></a>(4) 伪代码和代码实现</h3><p>伪代码：</p>
-<p><img src="https://cdn.jsdelivr.net/gh/Lyutoon/picture@1.04/%E4%BC%AA%E4%BB%A3%E7%A0%81.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/Lyutoon/picture@1.04/%E4%BC%AA%E4%BB%A3%E7%A0%81.png" srcset="data:image/png;base64,666" alt="alt" style="zoom:50%;" /></p>
-<p>代码实现</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> libnum <span class="keyword">import</span> *</span><br><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Pollard_Rho</span>(<span class="params">n</span>):</span></span><br><span class="line">    f = <span class="keyword">lambda</span> x: (x*x + <span class="number">1</span>) % n</span><br><span class="line">    x = <span class="number">2</span></span><br><span class="line">    _x = f(x)</span><br><span class="line">    p = gcd(x - _x, n)</span><br><span class="line">    <span class="keyword">while</span> p == <span class="number">1</span>:</span><br><span class="line">        x = f(x)</span><br><span class="line">        _x = f(f(_x))</span><br><span class="line">        p = gcd(x - _x, n)</span><br><span class="line">    <span class="keyword">if</span> p == n:</span><br><span class="line">        print(<span class="string">&#x27;[+] Failed&#x27;</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        print(<span class="string">&#x27;[+] Done! Find p:&#x27;</span>, p)</span><br><span class="line">        print(<span class="string">&#x27;[+] n =&#x27;</span>, p, <span class="string">&#x27;*&#x27;</span>, n//p)</span><br><span class="line">        <span class="keyword">return</span> p</span><br><span class="line"></span><br><span class="line">p = getPrime(<span class="number">20</span>)</span><br><span class="line">n = p * getPrime(<span class="number">1024</span>)</span><br><span class="line">Pollard_Rho(n)</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">output:</span></span><br><span class="line"><span class="string">[+] Done! Find p: 1003507</span></span><br><span class="line"><span class="string">[+] n = 1003507 * 119194734255586430249491786028030901955714303727483782260194798985850318067046294210092944971608413702515710726741826459609793866216394194576322278249676418761626477844699560122695407656121947507162012151299590017153791311273871754406254980031843483910743861839907953660598736617115028062045825098452377479049</span></span><br><span class="line"><span class="string">&quot;&quot;&quot;</span></span><br></pre></td></tr></table></figure>
-<p>因为$p$实在是太小了,整个代码跑起来差不多1s。但是python跑的有点慢,用C的话会快好多。因此我们可以看出如果一个大整数中有较小的素数,我们都可以很快地将其分解出来。</p>
-<h2 id="三、结语"><a href="#三、结语" class="headerlink" title="三、结语"></a>三、结语</h2><p>通过这个算法,告诫我们在RSA等依赖大整数分解困难性的加密系统选取大整数的时候,两个素数不要相差太远,因为<strong>1024bit</strong>和<strong>1024bit</strong>是不一样的,同样是<strong>1024bit</strong>尽量选取同样比特的$pq$效果会更好,不要一个很大一个很小,这样可以有效抵御Pollard Rho算法的攻击。</p>
-<p>感谢大家看到这里,今后我还会更新一些有趣的密码学中的算法,希望可以让大家收获知识和乐趣！</p>
+3x_1 + 4x_2 + x_3 \approx 0\, mod\, p\\ 
+4x_1 + 2x_2 + 6x_3 \approx 1\, mod\, p\\ 
+x_1 + x_2 + x_3 \approx 1\, mod\, p\\</script><p>Then we need to recover the secret $x$.</p>
+<h3 id="General-situation"><a href="#General-situation" class="headerlink" title="General situation:"></a>General situation:</h3><script type="math/tex; mode=display">
+s\cdot A+e = a\\
+s_0A_{i,0} + s_1A_{i,1} + \cdots+s_nA_{i, n} = a_i - e_i\,mod\,p\\
+=>s_0A_{i,0} + s_1A_{i,1} + \cdots+s_nA_{i, n} + k_ip + e_i = a_i</script><p>As the same, we need to recover $s.$  Where $e$ is small.</p>
+<p>Then from this equation we can construct a lattice $L$ that satisfies:</p>
+<script type="math/tex; mode=display">
+s\cdot L+e = [s_0, s_1, \cdots, s_n, k_0, k_1,\cdots,k_m]\begin{bmatrix}A_{0,0}&A_{1,0}&\cdots&A_{m, 0}\\A_{0,1}&A_{1,1}&\cdots&A_{m, 1}\\\vdots&\vdots&\ddots&\vdots\\A_{0,n}&A_{1,24}&\cdots&A_{m, n}\\p&0&\cdots&0\\0&p&\cdots&0\\\vdots&\vdots&\ddots&\vdots\\0&0&\cdots&p\end{bmatrix} + [e_0,e_1,\cdots,e_m] = [a_0,a_1\cdots,a_m] = a</script><p>Our target is to recover secret $s.$</p>
+<h2 id="Solve-LWE"><a href="#Solve-LWE" class="headerlink" title="Solve LWE"></a>Solve LWE</h2><h3 id="Step-1-LLL-algorithm"><a href="#Step-1-LLL-algorithm" class="headerlink" title="Step 1: LLL algorithm"></a>Step 1: LLL algorithm</h3><p>First we apply LLL algorithm to lattice $L$ to get a good basis.</p>
+<h3 id="Step-2-Solve-CVP-using-Babai’s-algorithm"><a href="#Step-2-Solve-CVP-using-Babai’s-algorithm" class="headerlink" title="Step 2: Solve CVP using Babai’s algorithm"></a>Step 2: Solve CVP using Babai’s algorithm</h3><p>We know that there is a <strong>close vector</strong> named $b$ that belongs to $L$ and is close to $a$ because $e$ is small which is a <strong>CVP</strong>. So we can solve for $b$ using <strong>Baibai’s algorithm</strong> to get rid of the error term $e$ which is:</p>
+<script type="math/tex; mode=display">
+A_{lwe}\cdot s = b^{T}</script><p>so we just need to solve this equation over the ring <strong>mod p</strong>.</p>
+<h2 id="Example-code"><a href="#Example-code" class="headerlink" title="Example code"></a>Example code</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">Babai_closest_vector</span>(<span class="params">L, w</span>):</span></span><br><span class="line">    <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">    Yet another method to solve apprCVP, using a given good basis.</span></span><br><span class="line"><span class="string">    INPUT:</span></span><br><span class="line"><span class="string">    * &quot;L&quot; -- a matrix representing the LLL-reduced basis (v1, ..., vn) of a lattice.</span></span><br><span class="line"><span class="string">    * &quot;w&quot; -- a target vector to approach to.</span></span><br><span class="line"><span class="string">    OUTPUT:</span></span><br><span class="line"><span class="string">    * &quot;v&quot; -- a approximate closest vector.</span></span><br><span class="line"><span class="string">    Quoted from &quot;An Introduction to Mathematical Cryptography&quot;:</span></span><br><span class="line"><span class="string">    In both theory and practice, Babai&#x27;s closest plane algorithm</span></span><br><span class="line"><span class="string">    seems to yield better results than Babai&#x27;s closest vertex algorithm.</span></span><br><span class="line"><span class="string">    &#x27;&#x27;&#x27;</span></span><br><span class="line">    G, _ = L.gram_schmidt()</span><br><span class="line">    t = w</span><br><span class="line">    i = L.nrows() - <span class="number">1</span></span><br><span class="line">    <span class="keyword">while</span> i &gt;= <span class="number">0</span>:</span><br><span class="line">        w -= <span class="built_in">round</span>( (w*G[i]) / G[i].norm()^<span class="number">2</span> ) * L[i]</span><br><span class="line">        i -= <span class="number">1</span></span><br><span class="line">    <span class="keyword">return</span> t - w</span><br><span class="line"></span><br><span class="line">A_value = [...] <span class="comment"># exactly &#x27;A&#x27; in General situation</span></span><br><span class="line">b_value = [...] <span class="comment"># exactly &#x27;a&#x27; in General situation</span></span><br><span class="line">m = ... </span><br><span class="line">n = ...</span><br><span class="line">p = ...</span><br><span class="line"><span class="comment"># construct the lattice L after applying LLL</span></span><br><span class="line">Lattice = matrix(ZZ, m + n, m)</span><br><span class="line"><span class="keyword">for</span> x <span class="keyword">in</span> <span class="built_in">range</span>(m):</span><br><span class="line">    <span class="keyword">for</span> y <span class="keyword">in</span> <span class="built_in">range</span>(n):</span><br><span class="line">        Lattice[m + y, x] = A_value[x, y]</span><br><span class="line">    Lattice[x, x] = p</span><br><span class="line">lattice = IntegerLattice(Lattice, lll_reduce=<span class="literal">True</span>)</span><br><span class="line">print(<span class="string">&#x27;LLL done&#x27;</span>)</span><br><span class="line"><span class="comment"># prepare for Babai&#x27;s algorithm</span></span><br><span class="line">target = vector(ZZ, b_value)</span><br><span class="line">closest_v = Babai_closest_vector(lattice.reduced_basis, target)</span><br><span class="line">print(<span class="string">&#x27;Find closest vector:&#123;&#125; &#x27;</span>.<span class="built_in">format</span>(closest_v))</span><br><span class="line"><span class="comment"># solve the equation: A*s = b</span></span><br><span class="line">A_LWE = matrix(Zmod(p), A_value)</span><br><span class="line">s = A_LWE.solve_right(closest_v)</span><br><span class="line">print(s)</span><br></pre></td></tr></table></figure>
+<h2 id="Solve-LWE-by-solving-SVP"><a href="#Solve-LWE-by-solving-SVP" class="headerlink" title="Solve LWE by solving SVP"></a>Solve LWE by solving SVP</h2><p>After participating in 天融信杯 I have searched a lot of papers to find how to solve LWE problem in a faster way. So it comes a method called <strong>Embedding method</strong> to convert <strong>CVP </strong>to <strong>SVP</strong>:</p>
+<p><img src="https://media.springernature.com/original/springer-static/image/chp%3A10.1007%2F978-3-319-89500-0_47/MediaObjects/466882_1_En_47_Figa_HTML.gif" class="lazyload" data-srcset="https://media.springernature.com/original/springer-static/image/chp%3A10.1007%2F978-3-319-89500-0_47/MediaObjects/466882_1_En_47_Figa_HTML.gif" srcset="data:image/png;base64,666" alt="alt" style="zoom:150%;" /></p>
+<p>Always, we set $M=1$ to increase the chance that <strong>BKZ</strong> will return the correct answer.</p>
+<p>Also there will be some optimization to help us solve LWE.</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>Solving LWE problem is <strong>NP hard</strong> which can be reduced to <strong>CVP, SVP</strong> . So is we wanna solve <strong>LWE</strong> we mush solve <strong>CVP, SVP</strong> first or we must solve <strong>NP</strong> problem. In other words, we can make lattice reduction algorithm faster to help us solve <strong>LWE</strong> much more easily.</p>
 
   
   
@@ -464,7 +404,7 @@ x_j=f(x_{j-1})\,mod\,n\quad(j\ge2)</script><p>而我们就是要在这个序列�
               
             
               
-                <p>本文永久链接是：<a href=http://example.com/2020/11/18/Pollard%20Rho/>http://example.com/2020/11/18/Pollard%20Rho/</a></p>
+                <p>本文永久链接是：<a href=http://example.com/2021/03/15/LWE/>http://example.com/2021/03/15/LWE/</a></p>
               
             
           </blockquote>
@@ -481,10 +421,10 @@ x_j=f(x_{j-1})\,mod\,n\quad(j\ge2)</script><p>而我们就是要在这个序列�
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2020-11-18T16:43:10+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-15T17:45:47+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
-    <p>更新于：2020年11月18日</p>
+    <p>更新于：2021年3月15日</p>
   </a>
 </div>
 
@@ -503,7 +443,7 @@ x_j=f(x_{j-1})\,mod\,n\quad(j\ge2)</script><p>而我们就是要在这个序列�
       
         <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2020/11/18/Pollard%20Rho/&title=Pollard Rho Algorithm Study - Lyutoon's blog&summary=了解了Pollard p-1 算法,来看看Pollard Rho算法又能玩出什么新花样吧！"
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/03/15/LWE/&title= - Lyutoon's blog&summary="
           
           >
           
@@ -515,7 +455,7 @@ x_j=f(x_{j-1})\,mod\,n\quad(j\ge2)</script><p>而我们就是要在这个序列�
       
         <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2020/11/18/Pollard%20Rho/&title=Pollard Rho Algorithm Study - Lyutoon's blog&summary=了解了Pollard p-1 算法,来看看Pollard Rho算法又能玩出什么新花样吧！"
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/03/15/LWE/&title= - Lyutoon's blog&summary="
           
           >
           
@@ -527,7 +467,7 @@ x_j=f(x_{j-1})\,mod\,n\quad(j\ge2)</script><p>而我们就是要在这个序列�
       
         <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
           
-          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2020/11/18/Pollard%20Rho/&title=Pollard Rho Algorithm Study - Lyutoon's blog&summary=了解了Pollard p-1 算法,来看看Pollard Rho算法又能玩出什么新花样吧！"
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/03/15/LWE/&title= - Lyutoon's blog&summary="
           
           >
           
@@ -557,17 +497,10 @@ x_j=f(x_{j-1})\,mod\,n\quad(j\ge2)</script><p>而我们就是要在这个序列�
   
     <div class="prev-next">
       
-        <a class='prev' href='/2021/03/15/LWE/'>
-          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i></p>
-          <p class='content'>Learning With Errors1. What is LWE?Here Oded Regev gives a definition of LWE :
-
-2. Get startedlin...</p>
-        </a>
       
-      
-        <a class='next' href='/2020/11/17/Pollard_p-1%20Algorithm/'>
-          <p class='title'>Pollard p-1 Algorithm (科普向)<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
-          <p class='content'>一、引言当我们首先接触到这个陌生的算法的时候,肯定想要知道这个算法是干什么用的。对于Pollard p-1算法,它可以在一定条件下完成对某些具有特定性质的大整数的分解问题。那么,什么是大整数分解...</p>
+        <a class='next' href='/2020/11/18/Pollard%20Rho/'>
+          <p class='title'>Pollard Rho Algorithm Study<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>一、引言在上一篇博客中,我们了解了Pollard p-1 算法,这次,请随我看看另一个名叫Pollard Rho的算法又能对大整数分解问题提供什么帮助吧！不过同样的,大整数分解问题在因子选取得当...</p>
         </a>
       
     </div>
@@ -590,59 +523,6 @@ x_j=f(x_{j-1})\,mod\,n\quad(j\ge2)</script><p>而我们就是要在这个序列�
 
 
 
-  <script>
-  // https://github.com/theme-next/hexo-theme-next/blob/master/layout/_third-party/math/mathjax.swig
-  if (typeof MathJax === 'undefined') {
-    window.MathJax = {
-      loader: {
-        source: {
-          '[tex]/amsCd': '[tex]/amscd',
-          '[tex]/AMScd': '[tex]/amscd'
-        }
-      },
-      tex: {
-        inlineMath: {'[+]': [['$', '$']]},
-        tags: 'ams'
-      },
-      options: {
-        renderActions: {
-          findScript: [10, doc => {
-            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
-              const display = !!node.type.match(/; *mode=display/);
-              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
-              const text = document.createTextNode('');
-              node.parentNode.replaceChild(text, node);
-              math.start = {node: text, delim: '', n: 0};
-              math.end = {node: text, delim: '', n: 0};
-              doc.math.push(math);
-            });
-          }, '', false],
-          insertedScript: [200, () => {
-            document.querySelectorAll('mjx-container').forEach(node => {
-              let target = node.parentNode;
-              if (target.nodeName.toLowerCase() === 'li') {
-                target.parentNode.classList.add('has-jax');
-              }
-            });
-          }, '', false]
-        }
-      }
-    };
-    (function () {
-      var script = document.createElement('script');
-      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.0/es5/tex-mml-chtml.js';
-      script.defer = true;
-      document.head.appendChild(script);
-    })();
-  } else {
-    // 文章章节标题不能为 “MathJax” ，否则会报错。
-    MathJax.startup.document.state(0);
-    MathJax.texReset();
-    MathJax.typeset();
-  }
-</script>
-
-
 
 </div>
 <aside class='l_side'>
@@ -663,7 +543,7 @@ x_j=f(x_{j-1})\,mod\,n\quad(j\ge2)</script><p>而我们就是要在这个序列�
 
 
     <div class='content'>
-        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E5%BC%95%E8%A8%80"><span class="toc-text">一、引言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BA%8C%E3%80%81Pollard-Rho%E7%AE%97%E6%B3%95"><span class="toc-text">二、Pollard Rho算法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E9%80%82%E7%94%A8%E6%9D%A1%E4%BB%B6"><span class="toc-text">(1) 适用条件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E5%9F%BA%E6%9C%AC%E6%80%9D%E6%83%B3"><span class="toc-text">(2) 基本思想</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%85%B7%E4%BD%93%E5%8E%9F%E7%90%86"><span class="toc-text">(3) 具体原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E4%BC%AA%E4%BB%A3%E7%A0%81%E5%92%8C%E4%BB%A3%E7%A0%81%E5%AE%9E%E7%8E%B0"><span class="toc-text">(4) 伪代码和代码实现</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E7%BB%93%E8%AF%AD"><span class="toc-text">三、结语</span></a></li></ol>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-What-is-LWE"><span class="toc-text">1. What is LWE?</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-Get-started"><span class="toc-text">2. Get started</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#linear-system-of-equations"><span class="toc-text">linear system of equations:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LWE-settings"><span class="toc-text">LWE settings:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#General-situation"><span class="toc-text">General situation:</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solve-LWE"><span class="toc-text">Solve LWE</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-1-LLL-algorithm"><span class="toc-text">Step 1: LLL algorithm</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Step-2-Solve-CVP-using-Babai%E2%80%99s-algorithm"><span class="toc-text">Step 2: Solve CVP using Babai’s algorithm</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Example-code"><span class="toc-text">Example code</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Solve-LWE-by-solving-SVP"><span class="toc-text">Solve LWE by solving SVP</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Conclusion"><span class="toc-text">Conclusion</span></a></li></ol>
     </div>
   </section>
 
@@ -682,8 +562,8 @@ x_j=f(x_{j-1})\,mod\,n\quad(j\ge2)</script><p>而我们就是要在这个序列�
 
 <script>
   window.pdata={}
-  pdata.ispage=true;
-  pdata.postTitle="Pollard Rho Algorithm Study";
+  pdata.ispage=false;
+  pdata.postTitle="";
   pdata.commentPath="";
   pdata.commentPlaceholder="";
 
