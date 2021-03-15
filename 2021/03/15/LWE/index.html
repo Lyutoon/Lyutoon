@@ -410,9 +410,9 @@
   <h1 id="Learning-With-Errors"><a href="#Learning-With-Errors" class="headerlink" title="Learning With Errors"></a>Learning With Errors</h1><h2 id="1-What-is-LWE"><a href="#1-What-is-LWE" class="headerlink" title="1. What is LWE?"></a>1. What is LWE?</h2><p>Here Oded Regev gives a definition of LWE :</p>
 <p><img src="https://i.loli.net/2020/11/02/WRbAEiU5mZqcpdo.png" class="lazyload" data-srcset="https://i.loli.net/2020/11/02/WRbAEiU5mZqcpdo.png" srcset="data:image/png;base64,666" alt="alt" style="zoom:150%;" /></p>
 <h2 id="2-Get-started"><a href="#2-Get-started" class="headerlink" title="2. Get started"></a>2. Get started</h2><h3 id="linear-system-of-equations"><a href="#linear-system-of-equations" class="headerlink" title="linear system of equations:"></a>linear system of equations:</h3><script type="math/tex; mode=display">
-3x_1 + 4x_2 + x_3 = 0\\\\
-4x_1 + 2x_2 + 6x_3 = 1\\\\
-x_1 + x_2 + x_3 = 1\\\\</script><p>if we want to get the value of $x_1, x_2, x_3$, we can use <strong>Gaussian Elimination</strong> to solve this problem. Or we can just use matrix to represent this problem:</p>
+3x_1 + 4x_2 + x_3 = 0\
+4x_1 + 2x_2 + 6x_3 = 1\
+x_1 + x_2 + x_3 = 1\</script><p>if we want to get the value of $x_1, x_2, x_3$, we can use <strong>Gaussian Elimination</strong> to solve this problem. Or we can just use matrix to represent this problem:</p>
 <script type="math/tex; mode=display">
 Ax = b\\\\
 \begin{bmatrix}3&4&1\\4&2&6\\1&1&1\end{bmatrix}\cdot\begin{bmatrix}x_1\\x_2\\x_3\end{bmatrix} =\begin{bmatrix}0\\1\\1\end{bmatrix}</script><h3 id="LWE-settings"><a href="#LWE-settings" class="headerlink" title="LWE settings:"></a>LWE settings:</h3><p>How about add an small error term $e?$ </p>
@@ -479,7 +479,7 @@ A_{lwe}\cdot s = b^{T}</script><p>so we just need to solve this equation over th
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-15T18:32:05+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-03-15T18:37:12+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2021年3月15日</p>
