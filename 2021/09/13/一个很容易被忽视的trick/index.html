@@ -5,8 +5,6 @@
   <!-- SEO相关 -->
   
     
-      <meta name="robots" content="noindex,follow">
-    
   
   <!-- 渲染优化 -->
   <meta http-equiv='x-dns-prefetch-control' content='on' />
@@ -21,9 +19,11 @@
 
   <!-- 页面元数据 -->
   
-  <title>归档：2021 - Lyutoon&#39;s blog</title>
+  <title>两个容易被我忽视的trick - Lyutoon&#39;s blog</title>
   
 
+  
+    <meta name="description" content="仅供参考">
   
 
   <!-- feed -->
@@ -56,7 +56,7 @@
 <body>
   
 
-<header id="l_header" class="l_header auto shadow blur " style='opacity: 0' >
+<header id="l_header" class="l_header auto shadow blur show" style='opacity: 0' >
   <div class='container'>
   <div id='wrapper'>
     <div class='nav-sub'>
@@ -273,7 +273,7 @@
     <div id="l_cover">
   
     
-        <div id="half" class='cover-wrapper  search' style="display: ;">
+        <div id="full" class='cover-wrapper post search' style="display: none;">
           
             <div class='cover-bg lazyload placeholder' data-bg="https://cdn.jsdelivr.net/gh/Lyutoon/background@1.53/pic/1.png"></div>
           
@@ -338,116 +338,305 @@
         
 
 <div class='l_main'>
-	
-		
-  <section class="post-list">
-    
-      
-        
-          
-        
-          
-        
-      
+  <article class="article post white-box reveal md shadow article-type-post" id="post" itemscope itemprop="blogPost">
+  
+
+
+  
+  <div class="article-meta" id="top">
     
     
-      
-        
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
     
-    <h2 class="article-title" >
-      <a href="/2021/09/13/%E4%B8%80%E4%B8%AA%E5%BE%88%E5%AE%B9%E6%98%93%E8%A2%AB%E5%BF%BD%E8%A7%86%E7%9A%84trick/">
+      <h1 class="title">
         两个容易被我忽视的trick
-      </a>
-    </h2>
-  
-  <div class='md'>
-    
-      仅供参考
-    
+      </h1>
+      <div class='new-meta-box'>
+        
+          
+            
+<div class='new-meta-item author'>
+  <a class='author' href="/" rel="nofollow">
+    <img no-lazy src="">
+    <p>Lyutoon</p>
+  </a>
+</div>
+
+          
+        
+          
+            
+  <div class='new-meta-item category'>
+    <a class='notlink'>
+      <i class="fas fa-folder-open fa-fw" aria-hidden="true"></i>
+      <a class="category-link" href="/categories/cryptography/">cryptography</a><span class="sep"></span><a class="category-link" href="/categories/cryptography/algorithm/">algorithm</a>
+    </a>
   </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
+
+
+          
         
-        <time>2021-09-13</time>
+          
+            <div class="new-meta-item date">
+  <a class='notlink'>
+    <i class="fas fa-calendar-alt fa-fw" aria-hidden="true"></i>
+    <p>发布于：2021年9月13日</p>
+  </a>
+</div>
+
+          
         
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/cryptography/">cryptography</a><span class="sep"></span><a class="category-link" href="/categories/cryptography/algorithm/">algorithm</a>
+          
+            
+  <div class="new-meta-item browse leancloud">
+    <a class='notlink'>
+      
+      <div id="lc-pv" data-title="两个容易被我忽视的trick" data-path="/2021/09/13/%E4%B8%80%E4%B8%AA%E5%BE%88%E5%AE%B9%E6%98%93%E8%A2%AB%E5%BF%BD%E8%A7%86%E7%9A%84trick/">
+        <i class="fas fa-eye fa-fw" aria-hidden="true"></i>
+        <span id='number'><i class="fas fa-circle-notch fa-spin fa-fw" aria-hidden="true"></i></span>
+        次浏览
+      </div>
+    </a>
+  </div>
+
+
+          
         
       </div>
+    
+  </div>
+
+
+  
+  <h2 id="这是两个容易被我忽视的trick"><a href="#这是两个容易被我忽视的trick" class="headerlink" title="这是两个容易被我忽视的trick"></a>这是两个容易被我忽视的trick</h2><h3 id="TRICK1-Factor-N-with-knowing-N-p-1"><a href="#TRICK1-Factor-N-with-knowing-N-p-1" class="headerlink" title="TRICK1: Factor N with knowing N % (p-1)"></a>TRICK1: Factor N with knowing N % (p-1)</h3><ul>
+<li>起因：闲逛github发现一道题，虽然很简单，但这里面的trick很容易被我忽视，以防下次再出现</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> getPrime, bytes_to_long</span><br><span class="line"></span><br><span class="line">flag = bytes_to_long(<span class="built_in">open</span>(<span class="string">&quot;/challenge/flag.txt&quot;</span>, <span class="string">&quot;rb&quot;</span>).read())</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">genkey</span>():</span></span><br><span class="line">    e = <span class="number">0x10001</span></span><br><span class="line">    p, q = getPrime(<span class="number">256</span>), getPrime(<span class="number">256</span>)</span><br><span class="line">    <span class="keyword">if</span> p &lt;= q:</span><br><span class="line">      p, q = q, p</span><br><span class="line">    n = p * q</span><br><span class="line">    pubkey = (e, n)</span><br><span class="line">    privkey = (p, q)</span><br><span class="line">    <span class="keyword">return</span> pubkey, privkey</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt</span>(<span class="params">m, pubkey</span>):</span></span><br><span class="line">    e, n = pubkey</span><br><span class="line">    c = <span class="built_in">pow</span>(m, e, n)</span><br><span class="line">    <span class="keyword">return</span> c</span><br><span class="line"></span><br><span class="line">pubkey, privkey = genkey()</span><br><span class="line">c = encrypt(flag, pubkey)</span><br><span class="line"></span><br><span class="line">hint = pubkey[<span class="number">1</span>] % (privkey[<span class="number">1</span>] - <span class="number">1</span>)</span><br><span class="line">print(<span class="string">&#x27;pubkey:&#x27;</span>, pubkey)</span><br><span class="line">print(<span class="string">&#x27;hint:&#x27;</span>, hint)</span><br><span class="line">print(<span class="string">&#x27;c:&#x27;</span>, c)</span><br></pre></td></tr></table></figure>
+<p>​    注意到这里：</p>
+<script type="math/tex; mode=display">
+hint = n\,mod\,(q-1)</script><ul>
+<li>第一种是我的做法，非常简单：注意到$p,q$都是balance的素数，那么$int(\frac{p}{q})=1$，也就说明了：<script type="math/tex; mode=display">
+hint = pq\,mod\,(q-1)=p\,mod\,(q-1)\\
+hint + q-1 = p</script></li>
+</ul>
+<ul>
+<li><p>第二种做法就是利用费马小定理</p>
+<script type="math/tex; mode=display">
+n - n\,mod\,(q-1) = 0 \,mod\,(q-1)</script><script type="math/tex; mode=display">
+gcd(n, 2^{n-hint}-1) = p</script></li>
+</ul>
+<ul>
+<li><p>类似应用：巅峰极客crtrsa</p>
+<p>题目给了$d_p$的范围，是可以爆破出来的，相当于直接给了$d_p$，那么我们要做的就是通过$d_p$分解$N$</p>
+<p>我们知道：</p>
+<script type="math/tex; mode=display">
+ed_p = 1\,mod\,(p-1)\\
+=>ed_p-1 = 0\,mod\,(p-1)</script><p>那么我们可以随便选一个与$n$互素的数，比如233：</p>
+<script type="math/tex; mode=display">
+gcd(n, 233^{e*d_p-1}-1)=p</script></li>
+</ul>
+<ul>
+<li>总结：当我们可以凑出如下形式：<script type="math/tex; mode=display">
+x = 0\,mod\,(p-1)</script></li>
+</ul>
+<p>  的时候，我们可以直接套用：</p>
+<script type="math/tex; mode=display">
+  gcd(m, a^{x}-1)</script><p>  来分解$n$</p>
+<h3 id="TRICK2-Find-a-pair-of-N-such-that-gcd-N1-N2-gt-1-over-an-array-in-a-faster-way"><a href="#TRICK2-Find-a-pair-of-N-such-that-gcd-N1-N2-gt-1-over-an-array-in-a-faster-way" class="headerlink" title="TRICK2: Find a pair of N such that gcd(N1, N2) &gt; 1 over an array in a faster way"></a>TRICK2: Find a pair of N such that gcd(N1, N2) &gt; 1 over an array in a faster way</h3><ul>
+<li>起因：RCTF出了一道有趣的密码学题目Uncommon Factors I</li>
+<li>直接给题目给的400w个$N$两两乘起来，之后再反复这样，直到数据量下降到可以接受的范围内，之后再做gcd，这样就会省去很多做gcd的时间。</li>
+</ul>
+
+  
+  
+    
+    <div class='footer'>
       
-        <div>
-          <a class='readmore' href='/2021/09/13/%E4%B8%80%E4%B8%AA%E5%BE%88%E5%AE%B9%E6%98%93%E8%A2%AB%E5%BF%BD%E8%A7%86%E7%9A%84trick/'>
-            阅读全文
-          </a>
+      
+      
+        <div class='copyright'>
+          <blockquote>
+            
+              
+                <p>博客内容遵循 署名-非商业性使用-相同方式共享 4.0 国际 (CC BY-NC-SA 4.0) 协议</p>
+
+              
+            
+              
+                <p>本文永久链接是：<a href=http://example.com/2021/09/13/%E4%B8%80%E4%B8%AA%E5%BE%88%E5%AE%B9%E6%98%93%E8%A2%AB%E5%BF%BD%E8%A7%86%E7%9A%84trick/>http://example.com/2021/09/13/%E4%B8%80%E4%B8%AA%E5%BE%88%E5%AE%B9%E6%98%93%E8%A2%AB%E5%BF%BD%E8%A7%86%E7%9A%84trick/</a></p>
+              
+            
+          </blockquote>
         </div>
+      
       
     </div>
   
+  
+    
 
+
+  <div class='article-meta' id="bottom">
+    <div class='new-meta-box'>
+      
+        
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-09-13T20:05:48+08:00">
+  <a class='notlink'>
+    <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
+    <p>更新于：2021年9月13日</p>
+  </a>
 </div>
 
-          </div>
         
       
         
-          <div class='post-wrapper'>
-            <div class="post post-v3 white-box reveal shadow">
-  
-  
-  
-  
+          
+
+        
+      
+        
+          
+  <div class="new-meta-item share -mob-share-list">
+  <div class="-mob-share-list share-body">
     
-    <h2 class="article-title" >
-      <a href="/2021/03/15/LWE/">
-        LWE study
-      </a>
-    </h2>
-  
-  <div class='md'>
+      
+        <a class="-mob-share-qq" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://example.com/2021/09/13/%E4%B8%80%E4%B8%AA%E5%BE%88%E5%AE%B9%E6%98%93%E8%A2%AB%E5%BF%BD%E8%A7%86%E7%9A%84trick/&title=两个容易被我忽视的trick - Lyutoon's blog&summary=仅供参考"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qq.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
     
-      Let's see how lwe works and how we can solve it!
+      
+        <a class="-mob-share-qzone" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="https://sns.qzone.qq.com/cgi-bin/qzshare/cgi_qzshare_onekey?url=http://example.com/2021/09/13/%E4%B8%80%E4%B8%AA%E5%BE%88%E5%AE%B9%E6%98%93%E8%A2%AB%E5%BF%BD%E8%A7%86%E7%9A%84trick/&title=两个容易被我忽视的trick - Lyutoon's blog&summary=仅供参考"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/qzone.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+        <a class="-mob-share-weibo" title="" rel="external nofollow noopener noreferrer noopener"
+          
+          target="_blank" href="http://service.weibo.com/share/share.php?url=http://example.com/2021/09/13/%E4%B8%80%E4%B8%AA%E5%BE%88%E5%AE%B9%E6%98%93%E8%A2%AB%E5%BF%BD%E8%A7%86%E7%9A%84trick/&title=两个容易被我忽视的trick - Lyutoon's blog&summary=仅供参考"
+          
+          >
+          
+            <img src="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" class="lazyload" data-srcset="https://cdn.jsdelivr.net/gh/volantis-x/cdn-org/logo/128/weibo.png" srcset="data:image/png;base64,666">
+          
+        </a>
+      
+    
+      
+    
+      
     
   </div>
-  
-    <div class='meta-v3' line_style='solid'>
-      <div>
+</div>
+
+
+
         
-        <time>2021-03-15</time>
-        
-          <span class="dot"></span>
-          <a class="category-link" href="/categories/cryptography/">cryptography</a><span class="sep"></span><a class="category-link" href="/categories/cryptography/algorithm/">algorithm</a>
-        
-      </div>
       
-        <div>
-          <a class='readmore' href='/2021/03/15/LWE/'>
-            阅读全文
-          </a>
-        </div>
+    </div>
+  </div>
+
+
+  
+  
+
+  
+    <div class="prev-next">
+      
+      
+        <a class='next' href='/2021/03/15/LWE/'>
+          <p class='title'>LWE study<i class="fas fa-chevron-right" aria-hidden="true"></i></p>
+          <p class='content'>Learning With Errors1. What is LWE?Here Oded Regev gives a definition of LWE :
+
+2. Get startedlin...</p>
+        </a>
       
     </div>
   
+</article>
 
+
+  
+
+  <article class="post white-box reveal shadow" id="comments">
+    <p ct><i class='fas fa-comments'></i> 评论</p>
+    
+    <div id="valine_container" class="valine_thread">
+  <i class="fas fa-cog fa-spin fa-fw fa-2x"></i>
 </div>
 
-          </div>
-        
-      
-    
-  </section>
-  
-    
-  
+  </article>
 
 
-	
+
+
+
+  <script>
+  // https://github.com/theme-next/hexo-theme-next/blob/master/layout/_third-party/math/mathjax.swig
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = 'https://cdn.jsdelivr.net/npm/mathjax@3.0/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    // 文章章节标题不能为 “MathJax” ，否则会报错。
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+
+
 </div>
 <aside class='l_side'>
   
@@ -455,106 +644,28 @@
     
     
 
-<section class="widget blogger shadow desktop mobile">
-  <div class='content'>
-    
-      
-        <a class='avatar flat-box rectangle' href='/about/'>
-          <img no-lazy src='https://cdn.jsdelivr.net/gh/Lyutoon/picture@1.01/1.jpg'/>
-        </a>
-      
-    
-    
-      <div class='text'>
-        
-        
-        
-          <p><span id="jinrishici-sentence">Lyutoon's blog</span></p>
-          <script src="https://sdk.jinrishici.com/v2/browser/jinrishici.js" charset="utf-8"></script>
-        
-      </div>
-    
-    
-      <div class="social-wrapper">
-        
-          
-            <a href="mailto:liutong@shanghaitech.edu.cn"
-              class="social fas fa-envelope flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="https://github.com/Lyutoon"
-              class="social fab fa-github flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-          
-            <a href="/"
-              class="social fas fa-headphones-alt flat-btn"
-              target="_blank"
-              rel="external nofollow noopener noreferrer">
-              
-            </a>
-          
-        
-      </div>
-    
-  </div>
-</section>
 
-  
 
-  
-    
-    
-  
-
-  <section class="widget category shadow desktop">
+  <section class="widget toc-wrapper shadow desktop mobile" id="toc-div" >
     
   <header>
     
-      <a href='/blog/categories/'><i class="fas fa-folder-open fa-fw" aria-hidden="true"></i><span class='name'>文章分类</span></a>
+      <i class="fas fa-list fa-fw" aria-hidden="true"></i><span class='name'>本文目录</span>
     
   </header>
 
 
     <div class='content'>
-      <ul class="entry navigation">
-        
-          <li><a class="flat-box"
-            title="/categories/cryptography/" href="/categories/cryptography/"
-            id="categoriescryptography"
-            ><div class='name'>cryptography</div><div class='badge'>(4)</div></a></li>
-        
-          <li><a class="flat-box child"
-            title="/categories/cryptography/algorithm/" href="/categories/cryptography/algorithm/"
-            id="categoriescryptographyalgorithm"
-            ><div class='name'>algorithm</div><div class='badge'>(4)</div></a></li>
-        
-      </ul>
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%BF%99%E6%98%AF%E4%B8%A4%E4%B8%AA%E5%AE%B9%E6%98%93%E8%A2%AB%E6%88%91%E5%BF%BD%E8%A7%86%E7%9A%84trick"><span class="toc-text">这是两个容易被我忽视的trick</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TRICK1-Factor-N-with-knowing-N-p-1"><span class="toc-text">TRICK1: Factor N with knowing N % (p-1)</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#TRICK2-Find-a-pair-of-N-such-that-gcd-N1-N2-gt-1-over-an-array-in-a-faster-way"><span class="toc-text">TRICK2: Find a pair of N such that gcd(N1, N2) &gt; 1 over an array in a faster way</span></a></li></ol></li></ol>
     </div>
   </section>
 
 
   
 
-  
-    
-    
-
-  
-
-  
-
 
 </aside>
+
 
 
         
@@ -564,14 +675,14 @@
 
 <script>
   window.pdata={}
-  pdata.ispage=false;
-  pdata.postTitle="";
+  pdata.ispage=true;
+  pdata.postTitle="两个容易被我忽视的trick";
   pdata.commentPath="";
   pdata.commentPlaceholder="";
 
   var l_header=document.getElementById("l_header");
   
-  l_header.classList.remove("show");
+  l_header.classList.add("show");
   
 </script>
 
