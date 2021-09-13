@@ -415,12 +415,10 @@
 <ul>
 <li><p><strong>第一种是我的做法，非常简单</strong>：注意到$p,q$都是balance的素数，那么$int(\frac{p}{q})=1$，也就说明了：</p>
 <script type="math/tex; mode=display">
-hint = pq\,mod\,(q-1)=p\,mod\,(q-1)\\
-hint + q-1 = p</script></li>
+hint = pq\,mod\,(q-1)=p\,mod\,(q-1)\,=>\,hint + q-1 = p</script></li>
 <li><p><strong>第二种做法就是利用费马小定理:</strong></p>
 <script type="math/tex; mode=display">
-n - n\,mod\,(q-1) = 0 \,mod\,(q-1)</script><script type="math/tex; mode=display">
-gcd(n, 2^{n-hint}-1) = p</script></li>
+n - n\,mod\,(q-1) = 0 \,mod\,(q-1)=>gcd(n, 2^{n-hint}-1) = p</script></li>
 </ul>
 <ul>
 <li><p><strong>类似应用</strong>：巅峰极客crtrsa</p>
@@ -472,7 +470,7 @@ gcd(n, 233^{e*d_p-1}-1)=p</script></li>
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-09-13T20:11:17+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-09-13T20:14:49+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2021年9月13日</p>
