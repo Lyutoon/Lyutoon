@@ -411,14 +411,13 @@
 <li><strong>起因</strong>：闲逛github发现一道题，虽然很简单，但这里面的trick很容易被我忽视，以防下次再出现</li>
 </ul>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> Crypto.Util.number <span class="keyword">import</span> getPrime, bytes_to_long</span><br><span class="line"></span><br><span class="line">flag = bytes_to_long(<span class="built_in">open</span>(<span class="string">&quot;/challenge/flag.txt&quot;</span>, <span class="string">&quot;rb&quot;</span>).read())</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">genkey</span>():</span></span><br><span class="line">    e = <span class="number">0x10001</span></span><br><span class="line">    p, q = getPrime(<span class="number">256</span>), getPrime(<span class="number">256</span>)</span><br><span class="line">    <span class="keyword">if</span> p &lt;= q:</span><br><span class="line">      p, q = q, p</span><br><span class="line">    n = p * q</span><br><span class="line">    pubkey = (e, n)</span><br><span class="line">    privkey = (p, q)</span><br><span class="line">    <span class="keyword">return</span> pubkey, privkey</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">encrypt</span>(<span class="params">m, pubkey</span>):</span></span><br><span class="line">    e, n = pubkey</span><br><span class="line">    c = <span class="built_in">pow</span>(m, e, n)</span><br><span class="line">    <span class="keyword">return</span> c</span><br><span class="line"></span><br><span class="line">pubkey, privkey = genkey()</span><br><span class="line">c = encrypt(flag, pubkey)</span><br><span class="line"></span><br><span class="line">hint = pubkey[<span class="number">1</span>] % (privkey[<span class="number">1</span>] - <span class="number">1</span>)</span><br><span class="line">print(<span class="string">&#x27;pubkey:&#x27;</span>, pubkey)</span><br><span class="line">print(<span class="string">&#x27;hint:&#x27;</span>, hint)</span><br><span class="line">print(<span class="string">&#x27;c:&#x27;</span>, c)</span><br></pre></td></tr></table></figure>
-<p>​    注意到这里：</p>
-<script type="math/tex; mode=display">
-hint = n\,mod\,(q-1)</script><ul>
+<p>​    注意到：$hint = n\,mod\,(q-1)$</p>
+<ul>
 <li><p><strong>第一种是我的做法，非常简单</strong>：注意到$p,q$都是balance的素数，那么$int(\frac{p}{q})=1$，也就说明了：</p>
 <script type="math/tex; mode=display">
 hint = pq\,mod\,(q-1)=p\,mod\,(q-1)\\
 hint + q-1 = p</script></li>
-<li><p><strong>第二种做法就是利用费马小定理</strong></p>
+<li><p><strong>第二种做法就是利用费马小定理:</strong></p>
 <script type="math/tex; mode=display">
 n - n\,mod\,(q-1) = 0 \,mod\,(q-1)</script><script type="math/tex; mode=display">
 gcd(n, 2^{n-hint}-1) = p</script></li>
@@ -432,13 +431,9 @@ ed_p = 1\,mod\,(p-1)\\
 =>ed_p-1 = 0\,mod\,(p-1)</script><p>那么我们可以随便选一个与$n$互素的数，比如233：</p>
 <script type="math/tex; mode=display">
 gcd(n, 233^{e*d_p-1}-1)=p</script></li>
-<li><p><strong>总结</strong>：当我们可以凑出如下形式：</p>
-<script type="math/tex; mode=display">
-x = 0\,mod\,(p-1)</script></li>
+<li><p><strong>总结</strong>：当我们可以凑出如下形式：$x = 0\,mod\,(p-1)$，我们便可以分解$n$: $p=gcd(m, a^{x}-1)$</p>
+</li>
 </ul>
-<p>  的时候，我们可以直接套用：</p>
-<script type="math/tex; mode=display">
-  gcd(m, a^{x}-1)</script><p>  来分解$n$</p>
 <h3 id="TRICK2-Find-a-pair-of-N-such-that-gcd-N1-N2-gt-1-over-an-array-in-a-faster-way"><a href="#TRICK2-Find-a-pair-of-N-such-that-gcd-N1-N2-gt-1-over-an-array-in-a-faster-way" class="headerlink" title="TRICK2: Find a pair of N such that gcd(N1, N2) &gt; 1 over an array in a faster way"></a>TRICK2: Find a pair of N such that gcd(N1, N2) &gt; 1 over an array in a faster way</h3><ul>
 <li><strong>起因</strong>：RCTF出了一道有趣的密码学题目Uncommon Factors I</li>
 <li>直接给题目给的400w个$N$两两乘起来，之后再反复这样，直到数据量下降到可以接受的范围内，之后再做gcd，这样就会省去很多做gcd的时间。</li>
@@ -477,7 +472,7 @@ x = 0\,mod\,(p-1)</script></li>
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-09-13T20:08:24+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-09-13T20:11:17+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2021年9月13日</p>
