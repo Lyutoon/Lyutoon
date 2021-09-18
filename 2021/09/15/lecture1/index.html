@@ -436,7 +436,7 @@ E(\textbf{w})=\frac{1}{2}\sum_{n=1}^N[y(x_n,\textbf{w}-t_n)]^2</script><p>Our ai
 <li><p><strong>Regularization</strong>:</p>
 <p>We can rewrite the loss function as:</p>
 <script type="math/tex; mode=display">
-\tilde{E}(\textbf{w})=\frac{1}{2}\sum_{n=1}^N[y(x_n,\textbf{w}-t_n)]^2+\frac{\lambda}{2}\norm{\textbf{w}}^2</script><p>In order to restrict the parameters we get by optimize the loss function to get rid of overfitting.</p>
+\tilde{E}(\textbf{w})=\frac{1}{2}\sum_{n=1}^N[y(x_n,\textbf{w}-t_n)]^2+\frac{\lambda}{2}||\textbf{w}||^2</script><p>In order to restrict the parameters we get by optimize the loss function to get rid of overfitting.</p>
 <p>As $\lambda$ goes bigger, the RMS error goes down but when $\lambda$ is big enough, the RMS error  goes up.</p>
 </li>
 </ul>
@@ -515,7 +515,7 @@ E(\theta|\chi)=\sum_{\mathcal{l}}L(\mathbf{y}^l,g(\mathbf{x}^l|\theta))</script>
     <div class='new-meta-box'>
       
         
-          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-09-15T17:45:11+08:00">
+          <div class="new-meta-item date" itemprop="dateUpdated" datetime="2021-09-15T17:49:05+08:00">
   <a class='notlink'>
     <i class="fas fa-edit fa-fw" aria-hidden="true"></i>
     <p>更新于：2021年9月15日</p>
@@ -590,6 +590,14 @@ E(\theta|\chi)=\sum_{\mathcal{l}}L(\mathbf{y}^l,g(\mathbf{x}^l|\theta))</script>
 
   
     <div class="prev-next">
+      
+        <a class='prev' href='/2021/09/18/math%20review/'>
+          <p class='title'><i class="fas fa-chevron-left" aria-hidden="true"></i>Lecture 2 notes</p>
+          <p class='content'>Lecture 2: Math ReviewLinear Algebra Related
+Gradient Vector
+
+\nabla_{\mathbf{x}}f(\mathbf{x}) = ...</p>
+        </a>
       
       
         <a class='next' href='/2021/09/13/%E4%B8%80%E4%B8%AA%E5%BE%88%E5%AE%B9%E6%98%93%E8%A2%AB%E5%BF%BD%E8%A7%86%E7%9A%84trick/'>
